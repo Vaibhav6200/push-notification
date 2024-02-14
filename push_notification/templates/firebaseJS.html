@@ -31,7 +31,7 @@
             const notification = JSON.parse(payload);
             const notificationOption = {
                 body: notification.body,
-                icon: notification.icon
+                icon: "https://app.myassociation.app/img/logo.png",
             };
             return self.registration.showNotification(payload.notification.title, notificationOption);
         });
