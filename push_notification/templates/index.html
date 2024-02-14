@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FCM: Push Notification</title>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+</head>
+
+<body>
+
+    <div>
+        <h2>Device Token</h2>
+        <textarea name="device_token" id="device_token" rows="10" style="width: 100%;"></textarea>
+    </div>
+
+    <script type="module">
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCeCIpWKbjq8oRHKRs_AyjVx2QpD1jdAUg",
+            authDomain: "notification-2a4ae.firebaseapp.com",
+            projectId: "notification-2a4ae",
+            storageBucket: "notification-2a4ae.appspot.com",
+            messagingSenderId: "195250316189",
+            appId: "1:195250316189:web:166b90381e28b0a9d64574",
+            measurementId: "G-RH957S0JXD"
+        };
+
+        // Initializing Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Request notification permission from the user
+        const messaging = firebase.messaging();
+
+        messaging.requestPermission()
+            .then(() => {
+                console.log('Notification permission granted!');
+                // Get FCM registration token and send to server
+                messaging.getToken({ vapidKey: 'BKoMl_18avq7k4DKjbwU8xhUeLMHFMIO7dOz7OuSG97KtKSvJidc0wqYPx3gN8WkpnX2-4IwBPQDm20qfhB_QX8' })
+                    .then(currentToken => {
+                        if (currentToken) {
+                            document.getElementById('device_token').value = currentToken;
+                            console.log(currentToken);
+                            return currentToken;
+                        } else {
+                            console.log('No registration token available. Request permission to generate one.');
+                        }
+                    }).catch(err => {
+                        console.log('An error occurred while retrieving token. ', err);
+                    });
+            })
+            .catch((error) => {
+                console.error('Error requesting notification permission:', error);
+            });
+
+
+        messaging.onMessage(payload => {
+            console.log(payload.notification);
+            // var audio = new Audio('../img/web_notifcation.mp3');
+            // audio.play();
+
+            // console.log('onMessage:', payload['data']);
+            // if (payload['data']['icon'] == '') {
+            //     var icon = 'success';
+            // } else {
+            //     var icon = payload['data']['icon'];
+            // }
+
+            // swal({
+            //     title: payload['data']['title'],
+            //     text: payload['data']['body'],
+            //     icon: icon,
+            //     buttons: true,
+            //     dangerMode: true,
+            //     buttons: ['Ok', 'View'],
+            // })
+            //     .then(willDelete => {
+            //         if (willDelete) {
+            //             // $('form.deleteForm'+id).submit();
+            //             // Simulate a mouse click:
+            //             window.location.href = payload['data']['click_action'];
+
+
+            //         } else {
+            //             // swal("Your data is safe!");
+            //         }
+            //     });
+        });
+
+        messaging.onTokenRefresh(() => {
+            messaging.getToken().then((refreshedToken) => {
+                console.log('Token refreshed:', refreshedToken);
+                // Send refreshed token to your server
+            }).catch((error) => {
+                console.error('Error getting refreshed token:', error);
+            });
+        });
+
+    </script>
+
+</body>
+
+</html>

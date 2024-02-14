@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FCM: Push Notification</title>
+
+    <!-- <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script> -->
+
+</head>
+
+<body>
+
+    <div>
+        <h2>Device Token</h2>
+        <textarea name="device_token" id="device_token" rows="10" style="width: 100%;"></textarea>
+    </div>
+
+    <script>
+        import {initializeApp} from 'firebase/app';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCeCIpWKbjq8oRHKRs_AyjVx2QpD1jdAUg",
+            authDomain: "notification-2a4ae.firebaseapp.com",
+            projectId: "notification-2a4ae",
+            storageBucket: "notification-2a4ae.appspot.com",
+            messagingSenderId: "195250316189",
+            appId: "1:195250316189:web:166b90381e28b0a9d64574",
+            measurementId: "G-RH957S0JXD"
+        };
+
+        const app = initializeApp(firebaseConfig);
+
+        messaging.onMessage((payload) => {
+            console.log('Message received. ', payload);
+        });
+
+    </script>
+
+</body>
+
+</html>
